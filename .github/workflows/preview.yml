@@ -20,3 +20,12 @@ jobs:
         run: |
           echo This is triggered!
           echo "$GITHUB_CONTEXT"
+      - name: Check if changes are done from either Drafts/Release categories
+        run: |
+          discussion_category="${{ github.event.discussion.category.slug }}"
+          echo "$discussion_category"
+          if [ "$discussion_category" = "drafts" -o "$discussion_category" = "release" ]; then
+            echo "it's okay"
+          else
+            echo "it's not okay, failing.."
+          fi
