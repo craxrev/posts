@@ -3,9 +3,6 @@ name: Testing Discussion Events
 on:
   discussion:
     types: [created, edited, deleted, pinned, unpinned, labeled, unlabeled, category_changed]
-    categories:
-      - Release
-      - Draft
 
   workflow_dispatch:
 
@@ -28,4 +25,5 @@ jobs:
             echo "it's okay"
           else
             echo "it's not okay, failing.."
+            exit 1
           fi
