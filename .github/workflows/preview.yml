@@ -15,5 +15,8 @@ jobs:
 
     steps:
       - name: Test out discussion events triggering
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
         run: |
           echo This is triggered!
+          echo "$GITHUB_CONTEXT"
