@@ -1,4 +1,4 @@
-name: Testing Discussion Events
+name: Posts Updater
 
 on:
   discussion:
@@ -11,16 +11,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check if changes are done from either Drafts/Release categories
+      - name: Check if changes are done from either Drafts/Release discussion categories
         env:
           VERCEL_DEPLOY_TOKEN: ${{ secrets.VERCEL_DEPLOY_TOKEN }}
         run: |
           discussion_category="${{ github.event.discussion.category.slug }}"
-          echo "$discussion_category"
           if [ "$discussion_category" = "drafts" -o "$discussion_category" = "release" ]; then
-            echo "it's okay"
+            echo "Matched Draft/Release discussion category, triggering a deployment.."
             curl -X POST "https://api.vercel.com/v1/integrations/deploy/prj_S1lsvmlFHFz7NSzuezqarPtuC8FZ/$VERCEL_DEPLOY_TOKEN"
+            echo "Deployment triggered successfully!"
           else
-            echo "it's not okay, failing.."
+            echo "Out of scope discussion category, failing.."
             exit 1
           fi
